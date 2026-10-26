@@ -65,4 +65,4 @@ The suite uses mocked Sarvam responses, temporary directories, and a temporary l
 - [Compatible voice catalog](https://docs.sarvam.ai/api/api-guides-tutorials/text-to-speech/voices)
 - [Pricing](https://docs.sarvam.ai/api/getting-started/pricing)
 
-Only `sarvamai` is installed directly. Its HTTPX dependency is used to close each request's connection cleanly. The web server, cache, audio inspection, and tests otherwise use Python's standard library; the frontend has no packages or build step.
+The direct dependencies are `sarvamai` and `streamlit`. The SDK's HTTPX dependency closes each request's connection cleanly. The original custom frontend has no packages or build step; Streamlit supplies the deployable Study Lab interface and its own dependencies.
