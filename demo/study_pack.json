@@ -1,0 +1,55 @@
+{
+  "notes": "Photosynthesis is how plants turn sunlight into food. They use water and carbon dioxide to make glucose, releasing oxygen into the air.",
+  "language": "English",
+  "pack": {
+    "summary": "Photosynthesis is the process by which plants convert sunlight into food. They utilize water and carbon dioxide to produce glucose and release oxygen into the atmosphere.",
+    "flashcards": [
+      {
+        "question": "What is the primary purpose of photosynthesis in plants?",
+        "answer": "To turn sunlight into food."
+      },
+      {
+        "question": "Which two substances do plants use as inputs for photosynthesis?",
+        "answer": "Water and carbon dioxide."
+      },
+      {
+        "question": "What gas do plants release into the air as a result of photosynthesis?",
+        "answer": "Oxygen."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What is the main product created by plants during photosynthesis?",
+        "options": [
+          "Oxygen",
+          "Glucose",
+          "Carbon Dioxide"
+        ],
+        "answer_index": 1,
+        "explanation": "The notes state that plants use water and carbon dioxide to make glucose."
+      },
+      {
+        "question": "What energy source powers the process of photosynthesis?",
+        "options": [
+          "Heat",
+          "Sunlight",
+          "Water"
+        ],
+        "answer_index": 1,
+        "explanation": "The notes identify sunlight as the energy source used to turn it into food."
+      },
+      {
+        "question": "What is released into the air as a byproduct of photosynthesis?",
+        "options": [
+          "Oxygen",
+          "Carbon Dioxide",
+          "Nitrogen"
+        ],
+        "answer_index": 0,
+        "explanation": "The notes specify that oxygen is released into the air during the process."
+      }
+    ],
+    "estimated_cost_inr": 0.02518,
+    "model": "sarvam-105b"
+  }
+}
