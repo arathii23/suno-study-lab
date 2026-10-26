@@ -1,0 +1,60 @@
+# Suno — your notes, out loud
+
+A local study reader with Hindi and Indian English narration, a choice of three documented voices per language, generation speeds from 0.5× to 2×, audio playback/seeking, WAV download, and a persistent audio cache. Paste up to 2,000 characters. The text is narrated as written; language selection does not translate it.
+
+## Run
+
+From this project directory:
+
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python server.py
+```
+
+Open **http://127.0.0.1:8000**. If the environment is already installed, only the last command is necessary. To choose another port: `.venv/bin/python server.py --port 8001`. Stop with Ctrl+C.
+
+The latest supplied API key is already in the local `.env`. For a fresh checkout, create `.env` with `SARVAM_API_KEY=your-key` or export that environment variable. An existing environment variable takes precedence. The backend reads it; the browser never receives it. `.env` is ignored and has owner-only file permissions. There is no dotenv dependency.
+
+## First working call
+
+```sh
+.venv/bin/python first_call.py
+```
+
+The script sends a 123-character Hindi sample using `bulbul:v4-flash`, `anand_hi_documentary`, 1× pace, and 24 kHz WAV. Its result is saved to `audio/hindi_sample.wav`. Subsequent runs reuse this file without another API request. The reader imports the same sample into its cache automatically.
+
+Initial verified result: **8.56 seconds, 410,924 bytes, estimated ₹0.123 before GST**. An additional **135-character English sample** was generated successfully through the browser with `aparna_en_edtech`. Development used **two live requests**, with total submitted text of **258 characters** and estimated cost of **₹0.258 before GST**. These are local estimates, not verified Sarvam billed usage or account balance. The supplied starting balance was 95 credits.
+
+## Credit-conscious behavior
+
+- Generation happens only after pressing Generate. Typing, changing settings, loading samples, opening the page, and replaying never call Sarvam.
+- An identical normalized text, language, model, voice, pace, output format, and sample rate reuse the saved WAV. Concurrent duplicate requests are serialized and pay only once within a running server.
+- All Sarvam calls set `max_retries=0`; HTTP transport retries are not enabled. Authentication, credit, model-access, and rate-limit errors pause further generation in that running server. Fix the underlying issue and restart deliberately.
+- Cost previews use the published pay-as-you-go rate of ₹1 per 1,000 characters, excluding GST, checked 26 October 2026. They do not query billing or claim a remaining balance. Failed requests are included conservatively in the local submitted-cost estimate.
+- Development mode: `.venv/bin/python server.py --development`. It enforces at most three development requests across the recorded first call and server calls, with at most 200 characters per new request. Cache hits still work. Use normal mode for your own longer study notes.
+
+## Local storage and privacy
+
+Only `static/index.html`, `static/styles.css`, `static/app.js`, `static/favicon.svg`, public API responses, and explicitly addressed generated WAVs are served. The server binds only to 127.0.0.1, checks the request host/origin, and does not log notes or request bodies. It is a local development app, not a publicly deployed service.
+
+The current draft is saved in this browser's local storage. Recordings and their note text are stored under ignored `audio/` and `.cache/` directories on this computer. Only text explicitly generated is sent to Sarvam. Other people using this computer/browser profile may be able to access these local drafts and files.
+
+There are no accounts, payments, database, OCR, translation, cloning, or hosting services. Fine-tuning is deferred; no training jobs or training-related charges have been created.
+
+## Offline checks
+
+```sh
+.venv/bin/python -m unittest discover -s tests -v
+```
+
+The suite uses mocked Sarvam responses, temporary directories, and a temporary loopback HTTP server. It spends no API credits. It covers caching across restarts, concurrent duplicates, parameter changes, invalid input, development limits, provider failures, WAV validity, first-call reuse, file access restrictions, cross-origin protection, audio seeking/downloads, and actual local HTTP routing.
+
+## API references
+
+- [Welcome and quickstart](https://docs.sarvam.ai/api/getting-started/welcome)
+- [TTS endpoint, model, and parameter contract](https://docs.sarvam.ai/api-reference/text-to-speech/convert)
+- [Compatible voice catalog](https://docs.sarvam.ai/api/api-guides-tutorials/text-to-speech/voices)
+- [Pricing](https://docs.sarvam.ai/api/getting-started/pricing)
+
+Only `sarvamai` is installed directly. Its HTTPX dependency is used to close each request's connection cleanly. The web server, cache, audio inspection, and tests otherwise use Python's standard library; the frontend has no packages or build step.

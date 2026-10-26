@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+audio/
+.cache/
+*.log
+.DS_Store
+.streamlit/secrets.toml

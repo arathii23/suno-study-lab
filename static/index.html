@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5f1">
+  <meta name="description" content="Turn your study notes into natural Hindi and English audio. A quiet space to learn at your own pace.">
+  <title>Suno — Your notes, out loud</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#notes">Skip to study notes</a>
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-wave" viewBox="0 0 24 24"><path d="M4 9v6m4-10v14m4-18v22m4-18v14m4-10v6"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5c-3-2-7-2-10-1v15c3-1 7-1 10 1m0-15c3-2 7-2 10-1v15c-3-1-7-1-10 1V5Z"/></symbol>
+    <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M3 14v-3a9 9 0 0 1 18 0v3M3 13h4v8H5a2 2 0 0 1-2-2v-6Zm18 0h-4v8h2a2 2 0 0 0 2-2v-6Z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 4 12 8-12 8V4Z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 10a9 9 0 1 1 2 8M3 4v6h6m3-4v6l4 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></symbol>
+  </svg>
+
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Workspace">
+      <a class="brand" href="/" aria-label="Suno home"><span class="brand-mark"><svg class="icon"><use href="#i-wave"/></svg></span><span>Suno<span class="brand-period">.</span></span></a>
+      <span class="brand-caption">A little more listening.</span>
+      <div class="sidebar-section-label">YOUR WORKSPACE</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <a class="nav-item active" href="#studio" aria-current="page"><svg class="icon"><use href="#i-book"/></svg>Reading studio<span class="nav-dot"></span></a>
+        <button class="nav-item" id="help-button"><svg class="icon"><use href="#i-info"/></svg>How it works</button>
+      </nav>
+      <div class="recent-area">
+        <div class="sidebar-section-label recent-heading">SAVED AUDIO <span id="saved-count">0</span></div>
+        <div id="recent-list" class="recent-list"><p class="quiet-note">Your recordings will appear here.</p></div>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="local-note"><span class="local-symbol"><svg class="icon"><use href="#i-check"/></svg></span><h2>Your own little library</h2><p>Saved on this computer.<br>Listen again, at no extra cost.</p></div>
+        <div class="powered-by">VOICE BY <span>Sarvam AI <svg class="tiny-wave"><use href="#i-wave"/></svg></span></div>
+      </div>
+    </aside>
+
+    <main id="studio" class="main-content">
+      <header class="topbar"><span class="workspace-label">STUDY STUDIO <span>/</span> NOTES TO AUDIO</span><button class="saved-button" id="library-button" aria-label="Saved recordings"><svg class="icon"><use href="#i-history"/></svg><span>Saved recordings</span></button></header>
+      <section class="intro" aria-labelledby="page-title">
+        <div><div class="eyebrow"><span></span> MADE FOR YOUR WAY OF LEARNING</div><h1 id="page-title">Your notes,<br><em>out loud.</em></h1><p class="intro-description">Give your eyes a break. Turn study notes into natural<br class="desktop-break"> Hindi or English audio, at a pace that feels like you.</p></div>
+        <div class="intro-art" aria-hidden="true"><div class="art-orbit"></div><div class="letter-card letter-hindi">अ<span>हिन्दी</span></div><div class="letter-card letter-english">Aa<span>ENGLISH</span></div><div class="art-wave"><svg><use href="#i-wave"/></svg></div><span class="art-caption">A familiar voice.<br>A fresh perspective.</span></div>
+      </section>
+
+      <form id="reader-form" novalidate>
+        <div class="workspace-grid">
+          <section class="card notes-card" aria-labelledby="notes-heading">
+            <div class="card-heading"><h2 id="notes-heading"><span class="step-number">01</span>Your study notes</h2><button type="button" class="text-button" id="clear-button">Clear</button></div>
+            <div class="editor-toolbar"><span class="editor-label"><span class="paper-dot"></span> A space for what you're learning</span><span class="sample-marker" id="sample-marker" hidden>Sample notes</span></div>
+            <label class="sr-only" for="notes">Study notes, up to 2,000 characters</label>
+            <textarea id="notes" name="notes" placeholder="A concept to revisit. A chapter to remember.&#10;&#10;Paste your notes here, and we'll read them back to you." spellcheck="false" aria-describedby="notes-hint character-count" maxlength="12000"></textarea>
+            <div class="editor-bottom"><span id="character-count">0 / 2,000 characters</span><span id="paragraph-count">0 paragraphs</span></div>
+            <div class="sample-row"><span>Need something to try?</span><button type="button" class="sample-button" id="hindi-sample" lang="hi">हिन्दी sample <span>↗</span></button><button type="button" class="sample-button" id="english-sample">English sample <span>↗</span></button></div>
+            <p id="notes-hint" class="notes-hint"><svg class="icon"><use href="#i-info"/></svg>Your words, as written. Choosing a language doesn't translate them.</p>
+          </section>
+
+          <section class="card settings-card" aria-labelledby="settings-heading">
+            <div class="card-heading"><h2 id="settings-heading"><span class="step-number">02</span>Make it sound like you</h2></div>
+            <fieldset class="language-field"><legend>Reading language</legend><div class="language-options"><label><input type="radio" name="language" value="hi-IN" checked><span><b lang="hi">हिन्दी</b><small>Hindi</small></span></label><label><input type="radio" name="language" value="en-IN"><span><b>English</b><small>Indian English</small></span></label></div></fieldset>
+            <div class="voice-field"><label class="field-label" for="voice">Your narrator</label><div class="select-wrap"><svg class="icon"><use href="#i-headphones"/></svg><select id="voice" aria-describedby="voice-description"></select></div><p id="voice-description" class="field-hint">Clear, unhurried narration</p></div>
+            <div class="pace-field"><div class="field-row"><label class="field-label" for="pace">Reading speed</label><output id="pace-value" for="pace">1×</output></div><input id="pace" type="range" min="0.5" max="2" step="0.05" value="1" aria-describedby="pace-hint"><div class="range-labels"><span>Take it slow</span><span>A little faster</span></div><p id="pace-hint" class="field-hint">Speed shapes the generated narration.</p></div>
+            <div class="generation-area"><div class="estimate-row"><span id="estimate-label">Estimated cost</span><strong id="cost-estimate">₹0.00</strong></div><button class="generate-button" id="generate-button" type="submit"><svg class="icon button-wave"><use href="#i-wave"/></svg><span id="generate-label">Generate audio</span><svg class="icon button-arrow"><use href="#i-arrow"/></svg><span class="spinner" hidden></span></button><p id="cost-note" class="cost-note">₹1 / 1,000 characters · before GST</p></div>
+          </section>
+        </div>
+        <p id="status-message" class="status-message" role="status" aria-live="polite"></p>
+        <div id="error-message" class="error-message" role="alert" hidden></div>
+      </form>
+
+      <section class="card player-card" id="player-card" aria-labelledby="player-heading">
+        <div class="player-header"><div class="player-title-group"><span class="player-icon"><svg class="icon"><use href="#i-headphones"/></svg></span><div><div class="section-eyebrow">YOUR LISTENING SPACE</div><h2 id="player-heading">Good notes deserve a second listen.</h2></div></div><a id="download-button" class="download-button" hidden><svg class="icon"><use href="#i-download"/></svg><span>Download audio</span></a></div>
+        <div id="player-empty" class="player-empty"><svg class="icon"><use href="#i-wave"/></svg><p>Your audio will settle in here.</p><span>Add your notes and choose a voice to get started.</span></div>
+        <div id="player-content" hidden><p class="recording-excerpt" id="recording-excerpt"></p><div class="playback-row"><button type="button" id="play-button" class="play-button" aria-label="Play recording"><svg class="icon"><use id="play-icon" href="#i-play"/></svg></button><div class="waveform-column"><div class="waveform-area"><svg id="waveform" viewBox="0 0 800 56" preserveAspectRatio="none" aria-hidden="true"></svg><input id="seek" type="range" min="0" max="100" step="0.05" value="0" aria-label="Seek recording"></div><div class="playback-times"><span id="current-time">0:00</span><span id="total-time">0:00</span></div></div><div class="skip-controls"><button type="button" id="skip-back" aria-label="Back 10 seconds">↶<span>10</span></button><button type="button" id="skip-forward" aria-label="Forward 10 seconds">↷<span>10</span></button></div></div><div class="recording-footer"><span id="recording-details"></span><span class="saved-indicator"><span></span>Saved locally · replay freely</span></div></div>
+        <audio id="audio" preload="metadata"></audio>
+      </section>
+      <footer class="main-footer"><span>A quieter way to learn. <span class="footer-spark">✳</span></span><span>Text is sent to Sarvam only when you generate. <a href="https://docs.sarvam.ai/api/getting-started/pricing" target="_blank" rel="noopener noreferrer">Pricing ↗</a></span></footer>
+      <noscript>This reader needs JavaScript for audio generation and playback controls.</noscript>
+    </main>
+  </div>
+
+  <dialog id="help-dialog"><div class="dialog-heading"><h2>A few notes, a familiar voice.</h2><button class="icon-button" data-close="help-dialog" aria-label="Close guide"><svg class="icon"><use href="#i-close"/></svg></button></div><ol class="guide-steps"><li><strong>Bring your notes.</strong><p>Paste up to 2,000 characters, or start with a sample.</p></li><li><strong>Find your voice.</strong><p>Choose the language your notes are written in, a narrator, and the reading speed.</p></li><li><strong>Make time to listen.</strong><p>Generate once. Play, seek, download, or revisit the same recording without generating again.</p></li></ol><p class="dialog-note">Prices are estimates before GST. Your Sarvam account balance isn't checked by this app. Narration does not translate your notes.</p></dialog>
+  <dialog id="library-dialog"><div class="dialog-heading"><h2>Saved recordings</h2><button class="icon-button" data-close="library-dialog" aria-label="Close saved recordings"><svg class="icon"><use href="#i-close"/></svg></button></div><p class="dialog-description">Pick up where you left off. Opening saved audio costs nothing.</p><div id="library-list" class="library-list"></div></dialog>
+</body>
+</html>
