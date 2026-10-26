@@ -35,6 +35,10 @@ def load_demo():
     st.session_state.packs[pack_identity(example["notes"], "English", "Understand the concept")] = example["pack"]
     st.session_state.demo_notes = example["notes"]
 
+def load_sample(language):
+    st.session_state.language = language
+    st.session_state.notes = SAMPLES["hi-IN" if language == "Hindi" else "en-IN"]
+
 with st.sidebar:
     st.title("Suno.")
     st.caption("READ → LISTEN → RECALL")
@@ -53,6 +57,16 @@ with st.sidebar:
 st.caption("YOUR STUDY SPACE")
 st.title("Your notes, out loud.")
 st.write("Listen to a concept. Make it simpler. Find out what you remember.")
+intro, demo = st.columns([2, 1])
+with intro:
+    st.caption("FOR COMMUTES, SCREEN BREAKS & EXAM REVISION")
+    st.write("**One set of notes. Three ways to learn:** natural narration, source-grounded flashcards, and a quiz that shows what to revisit.")
+with demo:
+    st.button("Try the free 60-second demo", on_click=load_demo, type="primary", use_container_width=True)
+    st.caption("No sign-up. No generation charge. Start with Listen, then open Understand & recall.")
+with st.expander("Why Suno? · A student-first learning loop"):
+    st.write("**Listen:** choose Hindi or English voices and your pace. **Recall:** answer before revealing explanations. **Revisit:** focus on missed concepts instead of rereading everything.")
+    st.caption("Designed to support students who prefer audio and revision on the move. Learning outcomes have not been measured. Notes are sent to Sarvam only when you request generation; session data is temporary, not a permanent notebook.")
 left, right = st.columns([1.65, 1], gap="large")
 with right:
     language = st.radio("Reading language", ["Hindi", "English"], horizontal=True, key="language")
@@ -65,10 +79,8 @@ with left:
     if "notes" not in st.session_state:
         st.session_state.notes = SAMPLES["hi-IN"]
     a, b = st.columns(2)
-    if a.button("Load Hindi sample", use_container_width=True):
-        st.session_state.notes = SAMPLES["hi-IN"]
-    if b.button("Load English sample", use_container_width=True):
-        st.session_state.notes = SAMPLES["en-IN"]
+    a.button("Load Hindi sample", on_click=load_sample, args=("Hindi",), use_container_width=True)
+    b.button("Load English sample", on_click=load_sample, args=("English",), use_container_width=True)
     notes = st.text_area("Your study notes", key="notes", height=230, max_chars=2000)
     st.caption(f"{len(notes.strip())} / 2,000 characters · Estimated narration ₹{len(notes.strip()) / 1000:.3f} before GST")
 listen, recall = st.tabs(["🎧 Listen & revisit", "✦ Understand & recall"])
@@ -134,6 +146,17 @@ with recall:
             if submitted is not None:
                 score = sum(answer == q["answer_index"] for answer, q in zip(submitted, pack["quiz"]))
                 st.success(f"You recalled {score} of {len(pack['quiz'])} concepts.")
+                missed = [q for answer, q in zip(submitted, pack["quiz"]) if answer != q["answer_index"]]
+                st.markdown("#### Your next revision step")
+                if missed:
+                    st.info(f"Focus on {len(missed)} concept(s), then try the quiz again. This revision plan costs no extra credits.")
+                    for number, q in enumerate(missed, 1):
+                        st.markdown(f"**{number}. {q['question']}**")
+                        st.write(q["explanation"])
+                    revision = "# My focused revision plan\n\n" + "\n\n".join(f"## {q['question']}\n{q['explanation']}" for q in missed)
+                    st.download_button("Download my revision checklist", revision, "suno-revision-checklist.md", "text/markdown")
+                else:
+                    st.success("All concepts recalled! Explain the big idea aloud without looking, then revisit it tomorrow.")
                 for q in pack["quiz"]:
                     with st.expander("Answer: " + q["options"][q["answer_index"]]):
                         st.write(q["explanation"])

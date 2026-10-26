@@ -1,6 +1,7 @@
+<!-- Latest product refinement: focused revision -->
 # Suno — your notes, out loud
 
-**Live app: https://suno-study-lab.streamlit.app/**  
+**Live app: https://suno-study-lab.streamlit.app/**
 **Aaditya Rathi and Priyanshi Agarwal · IIT Kanpur**
 
 ## One-minute demo
@@ -75,3 +76,17 @@ The suite uses mocked Sarvam responses, temporary directories, and a temporary l
 - [Pricing](https://docs.sarvam.ai/api/getting-started/pricing)
 
 The direct dependencies are `sarvamai` and `streamlit`. The SDK's HTTPX dependency closes each request's connection cleanly. The original custom frontend has no packages or build step; Streamlit supplies the deployable Study Lab interface and its own dependencies.
+
+## Judge walkthrough: Read → Listen → Recall → Revisit
+
+1. Open [the live app](https://suno-study-lab.streamlit.app/) and click **Try the free 60-second demo**. This reuses a real generated example and spends no new API credits.
+2. Play/download the narration, then open **Understand & recall**.
+3. Review the three flashcards and answer the quiz. Deliberately miss one answer to see a **personalized revision checklist**, then download it for later.
+4. Load your own Hindi or English notes and select a narrator, pace, and study goal. Generation happens only on an explicit click.
+
+**Creativity:** a single notes-to-audio-to-active-recall loop with targeted follow-up from missed answers.
+**Intended impact:** supports audio-first revision, screen breaks, and studying on the move; learning gains have not been measured.
+**Functionality:** narration, downloads, flashcards, scored quizzes, review progress, focused revision, and cached reuse.
+**Deployment:** public Streamlit app backed by this GitHub repository; credentials stay in private backend secrets.
+
+The focused revision checklist runs locally from the quiz results and makes no additional model call. Refinements are product and prompt improvements, not model-weight fine-tuning.
