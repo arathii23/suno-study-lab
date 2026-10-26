@@ -1,5 +1,13 @@
 # Suno — your notes, out loud
 
+## Streamlit Study Lab
+
+Run `.venv/bin/python -m streamlit run streamlit_app.py` and open http://localhost:8501.
+The Streamlit edition adds Sarvam-105B explanations, flashcards, an interactive scored quiz, and downloadable revision packs. Both AI generation actions require a click. Reopening a study pack, flipping cards, checking quiz answers, and replaying audio do not call an AI model. Study content is isolated by browser session. This is prompt-based product refinement, not model-weight fine-tuning.
+
+Deployment source: https://github.com/arathii23/suno-study-lab (private).
+In Streamlit Community Cloud, select repository `arathii23/suno-study-lab`, branch `main`, entrypoint `streamlit_app.py`. In Advanced settings add `SARVAM_API_KEY = "your-updated-key"` as a secret. Do not add the key to GitHub. Click Deploy and use the resulting streamlit.app URL. Deployment still requires completing Streamlit sign-in from the user's browser.
+
 A local study reader with Hindi and Indian English narration, a choice of three documented voices per language, generation speeds from 0.5× to 2×, audio playback/seeking, WAV download, and a persistent audio cache. Paste up to 2,000 characters. The text is narrated as written; language selection does not translate it.
 
 ## Run

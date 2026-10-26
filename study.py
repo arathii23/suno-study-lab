@@ -17,8 +17,10 @@ def build_pack(text, language="English"):
 Use ONLY facts in the notes. Write in {language}. Do not invent facts or correct the source silently.
 Return a JSON object with: summary (a short paragraph), flashcards (3 objects with question and answer),
 quiz (3 objects with question, options (exactly 3 strings), answer_index (0, 1 or 2), explanation).
-Keep the whole response concise, under 650 words. If the notes are insufficient, explain that in summary
-and return empty flashcards and quiz arrays. Never claim the content is verified outside the supplied notes."""
+Keep the whole response concise, under 650 words. Even short notes can support recall: ask about
+the inputs, process, and outputs described. For factual study notes ALWAYS produce exactly 3 flashcards
+and exactly 3 quiz questions. Only return empty arrays for unrelated or meaningless input with no study facts.
+Never claim the content is verified outside the supplied notes."""
     try:
         with httpx.Client(timeout=45, follow_redirects=False) as transport:
             response = SarvamAI(api_subscription_key=key, httpx_client=transport).chat.completions(
